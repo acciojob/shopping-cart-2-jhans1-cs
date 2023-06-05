@@ -10,7 +10,25 @@
 	<!-- the entire body must be written by student -->
     <script type="text/javascript" src="./script.js">
 </script>
-
+<form method="get">
+		<label for="item-name">Name</label>
+		<input type="text" id="item-name-input">
+		<label for="item-price">Price</label>
+		<input type="number" id="item-price-input">
+		<button type="submit">Add</button>
+	<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Price</th>
+    </tr>
+  </thead>
+  <tbody id="table-body">
+    <tr>
+      <td data-ns-test="grandTotal">0</td>
+    </tr>
+  </tbody>
+</table>
 </body>
 
 </html>
