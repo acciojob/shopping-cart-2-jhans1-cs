@@ -1,34 +1,92 @@
 <!DOCTYPE html>
-
-<html>
-
+<html lang="en">
 <head>
-      <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Shopping Cart</title>
 </head>
-
 <body>
-	<!-- the entire body must be written by student -->
-    <script type="text/javascript" src="./script.js">
-</script>
-<form method="get">
-		<label for="item-name">Name</label>
-		<input type="text" id="item-name-input">
-		<label for="item-price">Price</label>
-		<input type="number" id="item-price-input">
-		<button type="submit">Add</button>
-	<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Price</th>
-    </tr>
-  </thead>
-  <tbody id="table-body">
-    <tr>
-      <td data-ns-test="grandTotal">0</td>
-    </tr>
-  </tbody>
-</table>
-</body>
+  <h1>Shopping Cart</h1>
 
+  <label for="item-name-input">Item Name:</label>
+  <input type="text" id="item-name-input" placeholder="Enter item name">
+
+  <label for="item-price-input">Item Price:</label>
+  <input type="number" id="item-price-input" placeholder="Enter item price">
+
+  <button id="add-button">Add</button>
+
+  <table id="cart-table">
+    <thead>
+      <tr>
+        <th>Item Name</th>
+        <th>Item Price</th>
+      </tr>
+    </thead>
+    <tbody id="cart-items">
+      <!-- Initially, the table has only one row for the grand total -->
+      <tr>
+        <td data-ns-test="grandTotal" colspan="2">0</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <script>
+    // Get references to the necessary elements
+    const itemNameInput = document.getElementById("item-name-input");
+    const itemPriceInput = document.getElementById("item-price-input");
+    const addButton = document.getElementById("add-button");
+    const cartItems = document.getElementById("cart-items");
+    const grandTotalElement = document.querySelector("[data-ns-test='grandTotal']");
+
+    // Initialize the grand total
+    let grandTotal = 0;
+
+    // Function to update the grand total in the table
+    function updateGrandTotal() {
+      grandTotalElement.textContent = grandTotal;
+    }
+
+    // Event listener for the add button
+    addButton.addEventListener("click", function() {
+      const itemName = itemNameInput.value.trim();
+      const itemPrice = parseFloat(itemPriceInput.value.trim());
+
+      // Validate input
+      if (itemName === "" || isNaN(itemPrice) || itemPrice <= 0) {
+        alert("Invalid input. Please enter a valid item name and price.");
+        return;
+      }
+
+      // Create a new row in the table for the item
+      const newRow = document.createElement("tr");
+
+      // Create the table cells for item name and price
+      const itemNameCell = document.createElement("td");
+      const itemPriceCell = document.createElement("td");
+
+      // Set the text content and data attributes
+      itemNameCell.textContent = itemName;
+      itemNameCell.setAttribute("data-ns-test", "item-name");
+
+      itemPriceCell.textContent = itemPrice;
+      itemPriceCell.setAttribute("data-ns-test", "item-price");
+
+      // Append the cells to the row
+      newRow.appendChild(itemNameCell);
+      newRow.appendChild(itemPriceCell);
+
+      // Append the row to the cart items table
+      cartItems.appendChild(newRow);
+
+      // Update the grand total
+      grandTotal += itemPrice;
+      updateGrandTotal();
+
+      // Clear input fields
+      itemNameInput.value = "";
+      itemPriceInput.value = "";
+    });
+  </script>
+</body>
 </html>
